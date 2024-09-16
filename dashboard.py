@@ -43,11 +43,11 @@ with vehicle_info:
     fig = px.bar(groupby_data(df, 'fuel_type', 'model', 'count'),
              y='fuel_type',
              x='model',
-             labels={'fuel_type':'Fuel Types', 'model':'Number of Cars'}, 
+             labels={'fuel_type':'Fuel Types', 'model':'Number of Cars'},
              text_auto=True,
              color='model',
              color_continuous_scale='haline_r')
-    fig.update_layout(title='Number of Used Cars by Fuel Types',
+    fig.update_layout(title='Most Common Fuel Types',
                       title_x=0.4,
                       yaxis={'categoryorder': 'total ascending'})
     
@@ -65,7 +65,7 @@ with vehicle_info:
                         color='accident',
                         color_discrete_sequence=['#003566', '#780000', '#f4a259'])
         fig.update_layout(title='How many cars had an accident?',
-                        title_x=0.4,
+                        title_x=0.35,
                         showlegend=False)
         fig.update_yaxes(title_text='Number of Cars')
         fig.update_traces(textposition='outside')
@@ -82,7 +82,7 @@ with vehicle_info:
                         color='clean_title',
                         color_discrete_sequence=['#003566', '#780000'])
         fig.update_layout(title='How many cars have a clean title?',
-                        title_x=0.4,
+                        title_x=0.35,
                         showlegend=False)
         fig.update_yaxes(title_text='Number of Cars')
         fig.update_traces(textposition='outside')
@@ -94,7 +94,7 @@ with eng_trans:
     fig = px.bar(groupby_data(df, 'transmission', 'model', 'count'),
                 y='transmission',
                 x='model',
-                labels={'transmission':'Transmission Types', 'model':'Number of Cars'}, 
+                labels={'transmission':'Transmission Types', 'model':'Number of Cars'},
                 text_auto=True,
                 color='model',
                 color_continuous_scale='haline_r')
@@ -103,6 +103,44 @@ with eng_trans:
                     yaxis={'categoryorder': 'total ascending'})
     
     st.plotly_chart(fig)
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        fig = px.histogram(df,
+                        x='cylinder',
+                        width=800,
+                        height=400,
+                        text_auto=True,
+                        labels={'cylinder':'Cylinders'},
+                        color='cylinder',
+                        color_discrete_sequence=px.colors.qualitative.Pastel)
+        fig.update_layout(title='What is the most common number(s) of cylinders?',
+                        title_x=0.3,
+                        showlegend=False)
+        fig.update_yaxes(title_text='Number of Cars')
+        fig.update_traces(textposition='outside')
+        fig.update_xaxes(tickmode='linear', dtick=1)
+
+        st.plotly_chart(fig)
+
+    with col2:
+        fig = px.histogram(df,
+                        x='num_gear',
+                        width=800,
+                        height=400,
+                        text_auto=True,
+                        labels={'num_gear':'Gears'},
+                        color='num_gear',
+                        color_discrete_sequence=px.colors.qualitative.Pastel)
+        fig.update_layout(title='What is the most common number(s) of gears?',
+                        title_x=0.3,
+                        showlegend=False)
+        fig.update_yaxes(title_text='Number of Cars')
+        fig.update_traces(textposition='outside')
+        fig.update_xaxes(tickmode='linear', dtick=1)
+
+        st.plotly_chart(fig)
 
 with hist:
 
@@ -135,6 +173,39 @@ with hist:
                     color_discrete_sequence=['#f4a259'],
                     width=800,
                     height=400)
+        fig.update_layout(title_x=0.4)
+        fig.update_yaxes(title_text='Probability Density')
+
+        st.plotly_chart(fig)
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        fig = px.histogram(df,
+                   x='hp',
+                   title="Histogram of Horsepower",
+                   labels={'hp':'Horsepower'},
+                   histnorm='probability density',
+                   opacity=0.8,
+                   color_discrete_sequence=['#6a994e'],
+                   width=800,
+                   height=400,
+                   log_y=True)
+        fig.update_layout(title_x=0.4)
+        fig.update_yaxes(title_text='Probability Density (Log)')
+
+        st.plotly_chart(fig)
+
+    with col2:
+        fig = px.histogram(df,
+                        x='price',
+                        title="Histogram of Price",
+                        labels={'price':'Price'},
+                        histnorm='probability density',
+                        opacity=0.75,
+                        color_discrete_sequence=['#e29578'],
+                        width=800,
+                        height=400)
         fig.update_layout(title_x=0.4)
         fig.update_yaxes(title_text='Probability Density')
 
